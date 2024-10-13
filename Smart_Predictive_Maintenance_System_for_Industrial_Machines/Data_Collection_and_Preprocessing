@@ -1,0 +1,45 @@
+import numpy as np
+import pandas as pd
+import paho.mqtt.client as mqtt
+import json
+from scipy.fftpack import fft
+from statsmodels.tsa.stattools import adfuller
+
+# MQTT Setup to receive sensor data
+def on_message(client, userdata, message):
+    data = json.loads(message.payload.decode())
+    vibration_data.append(data['vibration'])
+    temperature_data.append(data['temperature'])
+    timestamp_data.append(data['timestamp'])
+
+vibration_data = []
+temperature_data = []
+timestamp_data = []
+
+# Configure MQTT client
+client = mqtt.Client()
+client.on_message = on_message
+client.connect("broker_address", 1883)
+client.subscribe("machine/vibration")
+client.loop_start()
+
+# Wait to collect data for a certain period
+import time
+time.sleep(600)  # Collect data for 10 minutes
+
+# Create a pandas dataframe for analysis
+df = pd.DataFrame({
+    'timestamp': timestamp_data,
+    'vibration': vibration_data,
+    'temperature': temperature_data
+})
+
+# Preprocess data - removing noise using a moving average
+df['vibration_smooth'] = df['vibration'].rolling(window=5).mean()
+df['temperature_smooth'] = df['temperature'].rolling(window=5).mean()
+
+# Check for stationarity using the Augmented Dickey-Fuller test
+result = adfuller(df['vibration_smooth'].dropna())
+if result[1] > 0.05:
+    print("Data is non-stationary, differencing required.")
+    df['vibration_smooth'] = df['vibration_smooth'].diff().dropna()
