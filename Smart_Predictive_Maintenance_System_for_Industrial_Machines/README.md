@@ -1,5 +1,6 @@
 Project Name: iPredict
 Slogan: Anticipate, Detect, Prevent
+
 Project Overview: Develop an IoT-based predictive maintenance system that monitors various sensors (e.g., vibration, temperature, and humidity) on industrial machines. The goal is to predict potential machine failures using advanced statistical methods such as time series analysis, regression models, and machine learning techniques like ARIMA (AutoRegressive Integrated Moving Average) and LSTM (Long Short-Term Memory) networks.
 
 Overally, the project involves:
