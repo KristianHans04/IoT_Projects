@@ -9,7 +9,7 @@ Welcome to my **IoT Projects Repository**! This repository serves as a comprehen
 
 Below is a list of the projects included in this repository. Each project folder contains:  
 - Detailed **code**  
-- Relevant **schematics** (if available)  
+- Relevant **schematics** (will be available for future uploads)  
 - **Documentation** explaining the project  
 
 | **Project Name**                                   | **Description**                                 | **Status**        |
